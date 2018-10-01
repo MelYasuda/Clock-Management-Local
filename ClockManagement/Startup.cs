@@ -38,15 +38,15 @@ namespace ClockManagement
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //}
 
             app.UseStaticFiles();
 
@@ -62,11 +62,5 @@ namespace ClockManagement
             });
 
         }
-
-        public static class DBConfiguration
-        {
-            public static string ConnectionString = "Database=clock_management; Data Source=testdeployserver.mysql.database.azure.com; User Id=goenchan@testdeployserver; Password=epicodus123!;";
-        }
-
     }
 }

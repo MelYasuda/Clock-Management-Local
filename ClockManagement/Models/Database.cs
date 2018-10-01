@@ -7,7 +7,7 @@ namespace ClockManagement.Models
     {
         public static MySqlConnection Connection()
         {
-            MySqlConnection conn = new MySqlConnection(DBConfiguration.ConnectionString);
+            MySqlConnection conn = new MySqlConnection("Database=clock_management; Data Source=testdeployserver.mysql.database.azure.com; User Id=goenchan@testdeployserver; Password=epicodus123!;");
             return conn;
         }
     }
