@@ -9,7 +9,7 @@
     <input id='employeeName' name='employeeName' type='text'>
 
     <select name="departmentId">
-      @foreach(var department in Model)
+      @foreach(var department in @Model["allDepartments"])
       {
         <option value="@department.id">@department.name</option>
       }

@@ -1,0 +1,17 @@
+@{
+  Layout = "_Layout";
+}
+
+<h1>Edit @Model["employee"].name</h1>
+<form action='/employees/@Model["employee"].id/update' method='post'>
+    <input id='employeeId' name='employeeId' type='hidden' value='@Model["employee"].id'>
+    <div class="form-group">
+        <label for='newName'>Employee Name: </label>
+        <input id='newName' name='newName' type='text' value='@Model["employee"].name'>
+    </div>
+    <button type='submit' class='btn btn-info'>Edit Employee</button>
+</form>
+<a href='/employees'><button class='btn btn-info'>View employees</button></a>
+<a href='/employees/@Model["employee"].id'><button class='btn btn-info'>Cancel Edit</button></a>
+<a href='/'><button class='btn btn-info'>Back Home</button></a>
+</div>

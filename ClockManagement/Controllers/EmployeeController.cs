@@ -58,6 +58,9 @@ namespace ClockManagement.Controllers
             Employee selectedEmployee = Employee.Find(employeeId);
             List<Department> employeeDepartments = selectedEmployee.GetDepartments();
             List<Department> allDepartments = Department.GetAll();
+            Hour newHour = Hour.Find(selectedEmployee.id);
+
+            model.Add("newHour", newHour);
             model.Add("selectedEmployee", selectedEmployee);
             model.Add("employeeDepartments", employeeDepartments);
             model.Add("allDepartments", allDepartments);
