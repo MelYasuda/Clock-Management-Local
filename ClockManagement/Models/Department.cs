@@ -211,36 +211,38 @@ namespace ClockManagement.Models
 
     public List<Employee> GetEmployees()
     {
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT employees.* FROM departments
-      JOIN departments_employees ON (departments.id = departments_employees.department_id)
-      JOIN employees ON (departments_employees.employee_id = employees.id)
-      WHERE departments.id = @DepartmentId;";
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+        MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT employees.* FROM departments
+                              JOIN departments_employees ON (departments.id = departments_employees.department_id)
+                              JOIN employees ON (departments_employees.employee_id = employees.id)
+                              WHERE departments.id = @DepartmentId;";
 
-      MySqlParameter departmentIdParameter = new MySqlParameter();
-      departmentIdParameter.ParameterName = "@DepartmentId";
-      departmentIdParameter.Value = id;
-      cmd.Parameters.Add(departmentIdParameter);
+        MySqlParameter departmentIdParameter = new MySqlParameter();
+        departmentIdParameter.ParameterName = "@DepartmentId";
+        departmentIdParameter.Value = id;
+        cmd.Parameters.Add(departmentIdParameter);
 
-      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
-      List<Employee> employees = new List<Employee>{};
+        MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+        List<Employee> employees = new List<Employee> { };
 
-      while(rdr.Read())
-      {
-        int employeeId = rdr.GetInt32(0);
-        string employeeName = rdr.GetString(1);
+        while (rdr.Read())
+        {
+            int employeeId = rdr.GetInt32(0);
+            string employeeName = rdr.GetString(1);
+            string employeeUsername = rdr.GetString(2);
+            string employeeUserPassword = rdr.GetString(3);
 
-        Employee newEmployee = new Employee(employeeName, employeeId);
-        employees.Add(newEmployee);
-      }
-      conn.Close();
-      if (conn != null)
-      {
-        conn.Dispose();
-      }
-      return employees;
+            Employee newEmployee = new Employee(employeeName, employeeUsername, employeeUserPassword, employeeId);
+            employees.Add(newEmployee);
+        }
+        conn.Close();
+        if (conn != null)
+        {
+            conn.Dispose();
+        }
+        return employees;
     }
 
     public static List<Department> SearchDepartment(string departmentName)

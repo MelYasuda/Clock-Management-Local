@@ -1,6 +1,26 @@
-﻿@{
-  Layout = "_Layout";
+﻿@using ClockManagement.Models;
+
+@{
+    Layout = "_Layout";
 }
 
-<a href="/departments" class="btn btn-info">departments</a>
-<a href="/employees" class="btn btn-info">employees</a>
+@if (Employee.login == false)
+{
+    <p>@Model</p>
+    <div class="form-group">
+        <form action="/login" method="post">
+            <label for="userName">UserName</label>
+            <input id="userName" value="userName" name="userName" type="text">
+            <label for="password">UserName</label>
+            <input id="password" value="password" name="password" type="text">
+            <button type="submit">Log In</button>
+        </form>
+        <a href='/signup'><button class='btn btn-info'>Sign Up</button></a>
+    </div>
+}
+else
+{
+    <p>@Model</p>
+    <a href="/departments" class="btn btn-info">departments</a>
+    <a href="/employees" class="btn btn-info">employees</a>
+}

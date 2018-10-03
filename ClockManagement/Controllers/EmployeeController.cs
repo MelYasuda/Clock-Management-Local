@@ -34,11 +34,11 @@ namespace ClockManagement.Controllers
         }
 
         [HttpPost("/employees")]
-        public ActionResult Create(int employeeDepartmentId, string employeeName)
+        public ActionResult Create(int departmentId, string employeeName, string employeeUserName, string employeeUserPassword)
         {
-            Employee newEmployee = new Employee(employeeName);
+            Employee newEmployee = new Employee(employeeName, employeeUserName, employeeUserPassword);
             newEmployee.Save();
-            Department foundDepartment = Department.Find(employeeDepartmentId);
+            Department foundDepartment = Department.Find(departmentId);
             newEmployee.AddDepartment(foundDepartment);
 
             return RedirectToAction("Index");
@@ -89,19 +89,13 @@ namespace ClockManagement.Controllers
         }
 
         [HttpPost("/employees/{employeeId}/update")]
-        public ActionResult Update(int employeeId, string newName)
+        public ActionResult Update(int newDepartmentId, int employeeId, string newName, string newUserName, string newUserPassword)
         {
             Employee thisEmployee = Employee.Find(employeeId);
-            thisEmployee.Edit(newName);
-            return RedirectToAction("Details", new { employeeId = thisEmployee.id });
-        }
+            thisEmployee.Edit(newName, newUserName, newUserPassword);
+            Department newDepartment = Department.Find(newDepartmentId);
 
-        [HttpGet("/employees/{employeeId}/delete")]
-        public ActionResult Delete(int employeeId)
-        {
-            Employee thisEmployee = Employee.Find(employeeId);
-            Employee.Delete(employeeId);
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { employeeId = thisEmployee.id });
         }
 
         [HttpPost("/employees/search")]

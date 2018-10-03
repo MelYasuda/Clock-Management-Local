@@ -1,0 +1,31 @@
+﻿@using ClockManagement.Models;
+
+@{
+  Layout = "_Layout";
+}
+
+@if (Employee.login == true)
+{
+    <h1>You are already logged in.</h1>
+}
+else
+{
+<h1>Register</h1>
+    <form action='/signup' method='post'>
+        <div class="form-group">
+            <label for='employeeName'>Employee Name</label>
+            <input id='employeeName' name='employeeName' type='text'>
+            <label for='employeeUserName'>Employee Username</label>
+            <input id='employeeUserName' name='employeeUserName' type='text'>
+            <label for='employeeUserPassword'>Employee Password</label>
+            <input id='employeeUserPassword' name='employeeUserPassword' type='text'>
+            <select name="departmentId">
+                @foreach (var department in @Model["allDepartments"])
+                {
+                <option value=@department.id>@department.name</option>
+                }
+            </select>
+        </div>
+        <button type='submit' class='btn btn-info'>Submit</button>
+    </form>
+}

@@ -1,17 +1,23 @@
 @{
   Layout = "_Layout";
 }
+<hr />
+<h2>Edit item: @Model["employee"].name</h2>
+<form action="/employees/@Model[" employee"].id/update" method="post">
+    <label for="newName">Name:</label>
+    <input type="text" name="newName" value="@Model[" employee"].name">
+    <label for="newUserName">Username:</label>
+    <input type="text" name="newUserName" value="@Model[" employee"].username">
+    <label for="newUserPassword">Password:</label>
+    <input type="text" name="newUserPassword" value="@Model[" employee"].password">
 
-<h1>Edit @Model["employee"].name</h1>
-<form action='/employees/@Model["employee"].id/update' method='post'>
-    <input id='employeeId' name='employeeId' type='hidden' value='@Model["employee"].id'>
-    <div class="form-group">
-        <label for='newName'>Employee Name: </label>
-        <input id='newName' name='newName' type='text' value='@Model["employee"].name'>
-    </div>
-    <button type='submit' class='btn btn-info'>Edit Employee</button>
+    <select name="newDepartmentId">
+        @foreach (var department in @Model["allDepartments"])
+        {
+        <option value=@department.id>@department.name</option>
+        }
+    </select>
+    <button type="submit">Edit</button>
 </form>
-<a href='/employees'><button class='btn btn-info'>View employees</button></a>
-<a href='/employees/@Model["employee"].id'><button class='btn btn-info'>Cancel Edit</button></a>
-<a href='/'><button class='btn btn-info'>Back Home</button></a>
-</div>
+
+<h4><a href="/">Return home</a></h4>

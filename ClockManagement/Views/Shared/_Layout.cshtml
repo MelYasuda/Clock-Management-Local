@@ -1,3 +1,5 @@
+@using ClockManagement.Models;
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,11 +32,23 @@
                     <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">ClockManagement</a>
                 </div>
                 <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-area="" asp-controller="Department" asp-action="Index">Department</a></li>
-                        <li><a asp-area="" asp-controller="Employee" asp-action="Index">Contact</a></li>
-                    </ul>
+                    @if (Employee.login == true)
+                     {
+                        <ul class="nav navbar-nav">
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a asp-area="" asp-controller="Department" asp-action="Index">Department</a></li>
+                            <li><a asp-area="" asp-controller="Employee" asp-action="Index">Contact</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="LogOut">Log Out</a></li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="nav navbar-nav">
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="LogIn">Log In</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Signup">Sign Up</a></li>
+                        </ul>
+                     }
                 </div>
             </div>
         </nav>
