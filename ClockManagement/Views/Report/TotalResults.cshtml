@@ -2,14 +2,17 @@
   Layout = "_Layout";
 }
 
-<h1>test</h1>
-<h1>@Model["selectedEmployee"].name Shifts</h1>
+<h1>Time Log</h1>
+<h1>@Model["selectedEmployee"].name's Shifts</h1>
 
 @foreach(var shift in @Model["totalHours"])
 {
   <ul>
-    <li>@shift.clock_in</li>
-    <li>@shift.clock_out</li>
-    <li>@shift.hours</li>
+    Clocked In : @shift.clock_in |
+    Clocked Out : @shift.clock_out |
+    Total Hours : @shift.hours 
   </ul>
 }
+
+<a href = '/departments'><button class='btn btn-info'>View Departments</button></a>
+<a href="/login"><button class="btn btn-info">Back Home</button></a>
