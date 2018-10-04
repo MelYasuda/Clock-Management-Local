@@ -81,9 +81,9 @@ namespace ClockManagement.Models
         conn.Open();
 
         var cmd = conn.CreateCommand() as MySqlCommand;
-        cmd.CommandText = @"UPDATE employees_hours SET clock_in = @clockIn WHERE employee_id = @searchId;";
+        cmd.CommandText = @"INSERT INTO employees_hours (clock_in, employee_id) VALUES (@clockIn, @employee_id);";
         cmd.Parameters.AddWithValue("@clockIn", DateTime.Now);
-        cmd.Parameters.AddWithValue("@searchId", id);
+        cmd.Parameters.AddWithValue("@employee_id", id);
 
 
         cmd.ExecuteNonQuery();
@@ -95,6 +95,28 @@ namespace ClockManagement.Models
           conn.Dispose();
         }
       }
+      public int GetId()
+      {
+        int newId = 0;
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT (id) FROM employees_hours ORDER BY id DESC LIMIT 1;";
+        var rdr = cmd.ExecuteReader() as MySqlDataReader;
+        while(rdr.Read())
+        {
+          int hourId = rdr.GetInt32(0);
+          newId = hourId;
+        }
+
+        conn.Close();
+        if (conn != null)
+        {
+          conn.Dispose();
+        }
+        return newId;
+      }
+
 
       public void ClockOut(int id)
 
@@ -103,7 +125,7 @@ namespace ClockManagement.Models
         conn.Open();
 
         var cmd = conn.CreateCommand() as MySqlCommand;
-        cmd.CommandText = @"UPDATE employees_hours SET clock_out = @clockOut WHERE employee_id = @newId;";
+        cmd.CommandText = @"UPDATE employees_hours SET clock_out = @clockOut WHERE id = @newId;";
         cmd.Parameters.AddWithValue("@clockOut", DateTime.Now);
         cmd.Parameters.AddWithValue("@newId", id);
 
