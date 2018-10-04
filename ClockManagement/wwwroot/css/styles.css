@@ -1,6 +1,6 @@
 body {
-  color: #BF927E;
-  background-color: #0f0f0f;
+  color: white;
+  background-color: #9FC8C5;
   font-family: 'Noto Serif KR', sans-serif;
 }
 
@@ -15,7 +15,7 @@ form {
 }
 
 div.card-body, form.card {
-  background-color: #0f0f0f;
+  background-color: #9FC8C5;
   border: none;
 }
 
@@ -25,21 +25,21 @@ input.search-input{
 }
 
 a.btn-info, button.btn-info {
-  color: #f0f0f0;
-  background-color: maroon;
+  color: white;
+  background-color: #455B77;
   margin-right: 1%;
-  border: 1px solid black;
+  border: none;
 }
 
 button.btn-info:hover, a.btn-info:hover {
     color: #fff;
-    background-color:	#b48811;
-    border-color: gray;
+    background-color:	#88A7A5;
+    border-color: white;
 }
 
 nav.navbar-gold {
-  color: #BF927E;
-  border-bottom: 2px double #BF927E;
+  color: white;
+  border-bottom: 2px double white;
 }
 
 nav a.navbar-brand{
@@ -49,19 +49,19 @@ nav a.navbar-brand{
 }
 
 div a{
-  color: #BF927E;
+  color: white;
 }
 .nav-item {
   margin-left: 5%;
 }
 nav a{
-  color: #BF927E;
+  color: white;
   font-size: 19px;
   text-decoration: none;
 }
 
 div a:hover, nav a:hover{
-  color: #FAFAD2;
+  color: #799593;
 }
 
 div.container-fluid {
@@ -73,23 +73,27 @@ div.container-fluid {
 
 div.logo{
   margin-top: 2%;
+  text-align: left;
 }
 
 div.logo h1 {
-  font-size: 47px;
+  font-size: 58px;
   color: white;
-  letter-spacing: 0px;
+  letter-spacing: 1px;
   margin-bottom: 0px;
-  border-top: 1px solid gray;
-  border-bottom: 1px solid gray;
+  padding-top: 3%;
+  border-top: 3px solid white;
 }
 
 div.logo p {
-  font-size: 21px;
-  letter-spacing: 12px;
+  font-size: 30px;
+  letter-spacing: 2px;
   line-height: 1;
-  color: red;
+  text-decoration-style: wavy;
+  color: #455B77;
   margin-bottom: 5%;
+  padding-bottom: 3%;
+  border-bottom: 3px solid white;
 }
 
 img.header {
@@ -100,7 +104,7 @@ img.header {
 }
 
 a.btn-secondary {
-  background-color: #a2790d;
+  background-color: #819977;
   font-size: 0.6rem;
 }
 
@@ -136,13 +140,13 @@ form label, form select {
 }
 
 form input, form option {
-  border-color: #BF927E;
+  border-color: white;
   /*change display inline*/
   display: inline;
 }
 
 form button.btn-info {
-  background-color: #a2790d;
+  background-color: #779399;
   /*change display inline*/
   display: inline;
 }
@@ -159,7 +163,7 @@ div.carousel-caption, .carousel-indicators {
   color: white;
   padding: 3%;
   margin-top: 3%;
-  background-color:	#a2790d;
+  background-color:	#1C827B;
   font-size: 13px;
 }
 
