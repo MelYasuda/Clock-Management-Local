@@ -194,29 +194,6 @@ namespace ClockManagement.Models
            return newHour;
        }
 
-      //  public void Save()
-      //  {
-      //    MySqlConnection conn = DB.Connection();
-      //    conn.Open();
-       //
-      //    var cmd = conn.CreateCommand() as MySqlCommand;
-      //    cmd.CommandText = @"INSERT INTO employees_hours (employee_id) VALUES (@searchId);";
-       //
-      //    MySqlParameter employeeName = new MySqlParameter();
-      //    employeeName.ParameterName = "@searchId";
-      //    employeeName.Value = this.id;
-      //    cmd.Parameters.Add(employeeName);
-       //
-      //    cmd.ExecuteNonQuery();
-      //    id = (int) cmd.LastInsertedId;
-       //
-      //    conn.Close();
-      //    if (conn != null)
-      //    {
-      //      conn.Dispose();
-      //    }
-      //  }
-
        public void AddEmployee(Employee newEmployee)
        {
          MySqlConnection conn = DB.Connection();
@@ -232,35 +209,7 @@ namespace ClockManagement.Models
            conn.Dispose();
          }
        }
-      //  public List<Employee> GetEmployees()
-      //    {
-      //      List<Employee> allEmployees = new List<Employee>{};
-      //      MySqlConnection conn = DB.Connection();
-      //      conn.Open();
-      //      MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-      //      cmd.CommandText = @"SELECT * FROM employees WHERE id = @employeeId ;";
-       //
-      //      cmd.Parameters.AddWithValue("@employeeId", this.employee_id);
-       //
-      //      MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
-       //
-      //      while(rdr.Read())
-      //      {
-      //        int Id = rdr.GetInt32(0);
-      //        string employeeName = rdr.GetString(1);
-      //        string employeeUserName = rdr.GetString(2);
-      //        string employeeUserPassword = rdr.GetString(3);
-       //
-      //        Employee newEmployee = new Employee(employeeName, employeeUserName, employeeUserPassword, Id);
-      //        allEmployees.Add(newEmployee);
-      //      }
-      //      conn.Close();
-      //      if (conn != null)
-      //      {
-      //        conn.Dispose();
-      //      }
-      //      return allEmployees;
-      //    }
+
       public void Save(int id)
       {
         MySqlConnection conn = DB.Connection();
@@ -306,7 +255,6 @@ namespace ClockManagement.Models
           Hour shifts = new Hour(employeeId, employeeClockIn, employeeClockOut, employeeHours);
           employeeShifts.Add(shifts);
         }
-
         conn.Close();
         if (conn != null)
         {
@@ -315,5 +263,28 @@ namespace ClockManagement.Models
         return employeeShifts;
       }
 
+      public static TimeSpan AllHours()
+      {
+        TimeSpan allHours = TimeSpan.Zero;
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT  SEC_TO_TIME( SUM( TIME_TO_SEC( `hours` ) ) ) AS timeSum FROM employees_hours;";
+
+        // TimeSpan GrandTotalHours = cmd.ExecuteScalar();
+
+        var rdr = cmd.ExecuteReader() as MySqlDataReader;
+        while(rdr.Read())
+        {
+         allHours = rdr.GetTimeSpan(0);
+        }
+        conn.Close();
+        if (conn != null)
+        {
+          conn.Dispose();
+        }
+        return allHours;
+      }
   }
 }
