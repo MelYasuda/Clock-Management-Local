@@ -8,7 +8,10 @@ h4 {
   font-size: 18px;
 }
 form {
-  margin: 3%;
+    color: black;
+    margin: 3%;
+    margin-top: 0px;
+    display: inline;
 }
 
 div.card-body, form.card {
@@ -60,7 +63,7 @@ nav a{
   text-decoration: none;
 }
 
-div a:hover, nav a:hover{
+div a:hover, nav a:hover, a:hover{
   color: #FAFAD2;
 }
 
@@ -124,11 +127,11 @@ div.lists {
 
 div h1 {
   text-transform: uppercase;
-  margin-bottom: 3%;
+  margin-bottom: 0%;
 }
 
 div button {
-  margin-top: 3%;
+  margin-top: 0%;
 }
 
 form label, form select {
@@ -136,11 +139,13 @@ form label, form select {
 }
 
 form input, form option {
-  border-color: #BF927E;
+    display: inline;
+    border-color: #BF927E;
 }
 
 form button.btn-info {
-  background-color: #a2790d;
+    display: inline;
+    background-color: #a2790d;
 }
 
 div.carousel-caption, .carousel-indicators {
@@ -167,4 +172,13 @@ footer .fa {
     text-align: center;
     text-decoration: none;
     color: white;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: gray;
+    opacity: 0.8; /* Firefox */
+}
+
+label {
+    color: #f5f5f5;
 }

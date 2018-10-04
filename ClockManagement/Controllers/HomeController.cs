@@ -57,12 +57,12 @@ namespace ClockManagement.Controllers
             return View("Index",resultString);
         }
 
-        [HttpPost("/logout")]
+        [HttpGet("/logout")]
         public ActionResult LogOut()
         {
             Employee.login = false;
             var resultString = "Successfuly logged out.";
-            return RedirectToAction("Index", resultString);
+            return View("Index", resultString);
         }
 
         [HttpGet("/signup")]
@@ -73,7 +73,7 @@ namespace ClockManagement.Controllers
             List<Employee> allEmployees = Employee.GetAll();
             model.Add("allDepartments", allDepartments);
             model.Add("allEmployees", allEmployees);
-            return View("Index", model);
+            return View("Signup", model);
         }
 
         [HttpPost("/signup")]
@@ -83,8 +83,8 @@ namespace ClockManagement.Controllers
             newEmployee.Save();
             Department foundDepartment = Department.Find(departmentId);
             newEmployee.AddDepartment(foundDepartment);
-
-            return RedirectToAction("Index");
+            var resultString = "Successfully signed up. Please Log in.";
+            return View("Index",resultString);
         }
 
     }
