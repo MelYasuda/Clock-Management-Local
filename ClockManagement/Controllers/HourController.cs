@@ -58,6 +58,8 @@ namespace ClockManagement.Controllers
       Dictionary<string, object> model = new Dictionary<string,object>();
       Employee selectedEmployee = Employee.Find(employeeId);
       List<Hour> totalHours = Hour.TotalHours(employeeId);
+      TimeSpan allEmployeeHours = selectedEmployee.GetAllHours();
+      model.Add("allHours", allEmployeeHours);
       model.Add("selectedEmployee", selectedEmployee);
       model.Add("totalHours", totalHours);
       return View("~/Views/Report/TotalResults.cshtml", model);

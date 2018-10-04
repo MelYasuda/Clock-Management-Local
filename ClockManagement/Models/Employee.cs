@@ -325,24 +325,29 @@ namespace ClockManagement.Models
       return allEmployees;
     }
 
-    // public String GetHours()
-    //  {
-    //    {
-    //      MySqlConnection conn = DB.Connection();
-    //      conn.Open();
-    //      var cmd = conn.CreateCommand() as MySqlCommand;
-    //      cmd.CommandText = @"SELECT SUM(hours) as sumHours FROM employees_hours WHERE employee_id = @searchId;";
-    //      cmd.Parameters.AddWithValue("@searchId", this.id);
-    //
-    //      String allHours = ((String)cmd.ExecuteScalar());
-    //      conn.Close();
-    //      if (conn != null)
-    //      {
-    //          conn.Dispose();
-    //      }
-    //      return allHours;
-    //    }
-    //  }
+    public TimeSpan GetAllHours()
+      {
+        TimeSpan allEmployeeHours = TimeSpan.Zero;
+        MySqlConnection conn = DB.Connection();
+        conn.Open();
+
+        var cmd = conn.CreateCommand() as MySqlCommand;
+        cmd.CommandText = @"SELECT  SEC_TO_TIME( SUM( TIME_TO_SEC( `hours` ) ) ) AS timeSum FROM employees_hours WHERE employee_id = @employeeId;";
+        cmd.Parameters.AddWithValue("@employeeId", this.id);
+
+        var rdr = cmd.ExecuteReader() as MySqlDataReader;
+        while(rdr.Read())
+        {
+         allEmployeeHours = rdr.GetTimeSpan(0);
+        }
+        conn.Close();
+        if (conn != null)
+        {
+          conn.Dispose();
+        }
+        return allEmployeeHours;
+      }
+
     public List<Hour> GetHours()
     {
       List<Hour> allHours = new List<Hour> {};
