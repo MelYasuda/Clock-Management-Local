@@ -325,5 +325,58 @@ namespace ClockManagement.Models
             }
             return allEmployees;
         }
+
+        public TimeSpan GetAllHours()
+        {
+            TimeSpan allEmployeeHours = TimeSpan.Zero;
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT  SEC_TO_TIME( SUM( TIME_TO_SEC( `hours` ) ) ) AS timeSum FROM employees_hours WHERE employee_id = @employeeId;";
+            cmd.Parameters.AddWithValue("@employeeId", this.id);
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while (rdr.Read())
+            {
+                allEmployeeHours = rdr.GetTimeSpan(0);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return allEmployeeHours;
+        }
+
+        public List<Hour> GetHours()
+        {
+            List<Hour> allHours = new List<Hour> { };
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM employees_hours WHERE employee_id = @searchId;";
+            cmd.Parameters.AddWithValue("@searchId", this.id);
+
+
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while (rdr.Read())
+            {
+
+                TimeSpan employeeHours = rdr.GetTimeSpan(3);
+                int employeeId = rdr.GetInt32(4);
+                DateTime employeeClockIn = rdr.GetDateTime(1);
+                DateTime employeeClockOut = rdr.GetDateTime(2);
+                int hourId = rdr.GetInt32(0);
+
+                Hour newHour = new Hour(employeeId, employeeClockIn, employeeClockOut, employeeHours, hourId);
+                allHours.Add(newHour);
+            }
+
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return allHours;
+        }
     }
 }

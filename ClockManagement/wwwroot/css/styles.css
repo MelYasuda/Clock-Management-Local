@@ -99,9 +99,9 @@ div.logo p {
     border-bottom: 3px solid white;
 }
 
-img.img-responsive {
+img.img-responsive.fixed {
     width: 100%;
-    height: 420px;
+    height: 700px;
     position: static;
     z-index: -1;
 }

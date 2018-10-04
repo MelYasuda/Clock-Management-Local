@@ -85,9 +85,9 @@ namespace ClockManagement.Models
             conn.Open();
 
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"UPDATE employees_hours SET clock_in = @clockIn WHERE employee_id = @searchId;";
+            cmd.CommandText = @"INSERT INTO employees_hours(clock_in, employee_id) VALUES(@clockIn, @employee_id);";
             cmd.Parameters.AddWithValue("@clockIn", DateTime.Now);
-            cmd.Parameters.AddWithValue("@searchId", id);
+            cmd.Parameters.AddWithValue("@employee_id", id);
 
 
             cmd.ExecuteNonQuery();
@@ -100,6 +100,27 @@ namespace ClockManagement.Models
             }
         }
 
+        public int GetId()
+        {
+            int newId = 0;
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT (id) FROM employees_hours ORDER BY id DESC LIMIT 1;";
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while (rdr.Read())
+            {
+                int hourId = rdr.GetInt32(0);
+                newId = hourId;
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return newId;
+        }
+
         public void ClockOut(int id)
 
         {
@@ -107,7 +128,7 @@ namespace ClockManagement.Models
             conn.Open();
 
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"UPDATE employees_hours SET clock_out = @clockOut WHERE employee_id = @newId;";
+            cmd.CommandText = @"UPDATE employees_hours SET clock_out = @clockOut WHERE id = @newId;";
             cmd.Parameters.AddWithValue("@clockOut", DateTime.Now);
             cmd.Parameters.AddWithValue("@newId", id);
 
@@ -176,28 +197,28 @@ namespace ClockManagement.Models
             return newHour;
         }
 
-        //  public void Save()
-        //  {
-        //    MySqlConnection conn = DB.Connection();
-        //    conn.Open();
-        //
-        //    var cmd = conn.CreateCommand() as MySqlCommand;
-        //    cmd.CommandText = @"INSERT INTO employees_hours (employee_id) VALUES (@searchId);";
-        //
-        //    MySqlParameter employeeName = new MySqlParameter();
-        //    employeeName.ParameterName = "@searchId";
-        //    employeeName.Value = this.id;
-        //    cmd.Parameters.Add(employeeName);
-        //
-        //    cmd.ExecuteNonQuery();
-        //    id = (int) cmd.LastInsertedId;
-        //
-        //    conn.Close();
-        //    if (conn != null)
-        //    {
-        //      conn.Dispose();
-        //    }
-        //  }
+          public void Save()
+          {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+        
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"INSERT INTO employees_hours (employee_id) VALUES (@searchId);";
+        
+            MySqlParameter employeeName = new MySqlParameter();
+            employeeName.ParameterName = "@searchId";
+            employeeName.Value = this.id;
+            cmd.Parameters.Add(employeeName);
+        
+            cmd.ExecuteNonQuery();
+            id = (int) cmd.LastInsertedId;
+        
+            conn.Close();
+            if (conn != null)
+            {
+              conn.Dispose();
+            }
+          }
 
         public void AddEmployee(Employee newEmployee)
         {
@@ -243,27 +264,72 @@ namespace ClockManagement.Models
         //      }
         //      return allEmployees;
         //    }
-        public void Save(int id)
+
+
+        //public void Save(int id)
+        //{
+        //    MySqlConnection conn = DB.Connection();
+        //    conn.Open();
+        //    var cmd = conn.CreateCommand() as MySqlCommand;
+        //    cmd.CommandText = @"INSERT INTO employees_hours (employee_id) VALUES (@Id);";
+        //    MySqlParameter employeeName = new MySqlParameter();
+        //    employeeName.ParameterName = "@Id";
+        //    employeeName.Value = id;
+        //    cmd.Parameters.Add(employeeName);
+        //    cmd.ExecuteNonQuery();
+        //    id = (int)cmd.LastInsertedId;
+        //    conn.Close();
+        //    if (conn != null)
+        //    {
+        //        conn.Dispose();
+        //    }
+        //}
+
+        public static List<Hour> TotalHours(int id)
         {
+            List<Hour> employeeShifts = new List<Hour>();
             MySqlConnection conn = DB.Connection();
             conn.Open();
-
             var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"INSERT INTO employees_hours (employee_id) VALUES (@Id);";
-
-            MySqlParameter employeeName = new MySqlParameter();
-            employeeName.ParameterName = "@Id";
-            employeeName.Value = id;
-            cmd.Parameters.Add(employeeName);
-
-            cmd.ExecuteNonQuery();
-            id = (int)cmd.LastInsertedId;
-
+            cmd.CommandText = @"SELECT `employee_id`, `clock_in`, `clock_out`, TIMEDIFF(`clock_out`, `clock_in`) AS TIMEDIFF FROM employees_hours WHERE employee_id = @searchId;";
+            cmd.Parameters.AddWithValue("@searchId", id);
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while (rdr.Read())
+            {
+                TimeSpan employeeHours = rdr.GetTimeSpan(3);
+                int employeeId = rdr.GetInt32(0);
+                DateTime employeeClockIn = rdr.GetDateTime(1);
+                DateTime employeeClockOut = rdr.GetDateTime(2);
+                Hour shifts = new Hour(employeeId, employeeClockIn, employeeClockOut, employeeHours);
+                employeeShifts.Add(shifts);
+            }
             conn.Close();
             if (conn != null)
             {
                 conn.Dispose();
             }
+            return employeeShifts;
+        }
+
+        public static TimeSpan AllHours()
+        {
+            TimeSpan allHours = TimeSpan.Zero;
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT  SEC_TO_TIME( SUM( TIME_TO_SEC( `hours` ) ) ) AS timeSum FROM employees_hours;";
+            // TimeSpan GrandTotalHours = cmd.ExecuteScalar();
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while (rdr.Read())
+            {
+                allHours = rdr.GetTimeSpan(0);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return allHours;
         }
     }
 }

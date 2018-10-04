@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "_Layout";
+}
+<h1>Time Log</h1>
+<h1>@Model["selectedEmployee"].name's Shifts</h1>
+@foreach (var shift in @Model["totalHours"])
+{
+<ul>
+    Clocked In : @shift.clock_in |
+    Clocked Out : @shift.clock_out |
+    Total Hours : @shift.hours
+    Total Hours : @shift.hours
+</ul>
+}
+
+<p> Total hours : @Model["allHours"]</h2>
+
+<a href='/reports'><button class='btn btn-info'>View Reports</button></a>
+<a href='/employees'><button class='btn btn-info'>View Employees</button></a>
+<a href="/"><button class="btn btn-info">Back Home</button></a>

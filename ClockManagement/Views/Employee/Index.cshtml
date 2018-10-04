@@ -34,10 +34,11 @@
         <a href='/employees/new'><button class='btn btn-info'>Add Employee</button></a>
         <a href='/departments'><button class='btn btn-info'>View Departments</button></a>
         <a href="/"><button class="btn btn-info">Back Home</button></a>
-        @Html.Partial("_SearchBar", "employees")
-    }
+        <a href = "/reports" class="btn btn-info">View Reports</a>
+    @Html.Partial("_SearchBar", "employees")
+}
 }
 else
 {
-    <h1>You are not logged in.</h1>
+<h1>You are not logged in.</h1>
 }
