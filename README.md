@@ -5,8 +5,11 @@
 #### By _**Akjal Jaenbai, Chan Lee, Connor McCarthy, Mel Yasuda**_
 
 ## Description
-It is an application which lets employees to clock in and out and check their timesheet. 
+It is an application which lets employees to clock in and out and check their timesheet.
 
+## URL
+ClockManagement.azurewebsites.net
+![Screenshot](/ClockManagement/wwwroot/img/thumbnail/screenshot.png)
 ## Specifications
 * The program allows the user to create their account with their user name, login password and the department they belong to.
 * The program allows the user to log in with their user name and login password.
