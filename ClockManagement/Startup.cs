@@ -40,12 +40,12 @@ namespace ClockManagement
 
             //if (env.IsDevelopment())
             //{
-                app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+                //app.UseDeveloperExceptionPage();
+                //app.UseBrowserLink();
             //}
             //else
             //{
-            //    app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Home/Error");
             //}
 
             app.UseStaticFiles();
