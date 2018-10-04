@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ClockManagement.Models;
 using System.Collections.Generic;
+using System;
 
 namespace ClockManagement.Controllers
 {
@@ -60,6 +61,13 @@ namespace ClockManagement.Controllers
       model.Add("selectedEmployee", selectedEmployee);
       model.Add("totalHours", totalHours);
       return View("~/Views/Report/TotalResults.cshtml", model);
+    }
+
+    [HttpGet("/allhours")]
+    public ActionResult AllHours()
+    {
+      TimeSpan allTimeSpan = Hour.AllHours();
+      return View("~/Views/Report/AllHours.cshtml", allTimeSpan);
     }
   }
 }
